@@ -1,0 +1,59 @@
+<!Doctype HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Liberar</title>
+  </head>
+  <body>
+    <section>
+      <form action="" method="POST">
+        {% csrf_token %}
+        <table>
+          <tbody>
+            <tr>
+              <td><label>Entidad</label></td>
+              <td>{{ form.entidad }}</td>
+            </tr>
+            <tr>
+              <td><label for="">Año</label></td>
+              <td>{{ form.year }}</td>
+            </tr>
+            <tr>
+              <td><label for="">Mes</label></td>
+              <td>{{ form.month }}</td>
+            </tr>
+            <tr>
+              <td><label for="">Liberar</label></td>
+              <td>{{ form.liberate }}</td>
+            </tr>
+            <tr>
+              <td colspan="2"><button>Guardar</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </section>
+    <section class="list">
+      <table>
+        <thead>
+          <tr>
+            <th>Entidad</th>
+            <th>Año</th>
+            <th>Mes</th>
+            <th>liberados</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in list %} 
+            <tr>
+              <td>{{ item.entidad }}</td>
+              <td>{{ item.year }}</td>
+              <td>{{ item.month }}</td>
+              <td>{{ item.liberate }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </body>
+</html>

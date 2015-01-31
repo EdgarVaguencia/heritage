@@ -1,0 +1,53 @@
+<!Doctype HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Entidad</title>
+  </head>
+  <body>
+    <section>
+      {{ errors }}
+    </section>
+    <section>
+      <form action="" method="POST">
+        {% csrf_token %}
+        <table>
+          <tbody>
+            <tr>
+              <td><label>Entidad</label></td>
+              <td>{{ form.nombre }}</td>
+            </tr>
+            <tr>
+              <td><label for="">Padre</label></td>
+              <td>{{ form.father }}</td>
+              <td>{{ form.father.errors }}</td>
+            </tr>
+            <tr>
+              <td colspan="2"><button>Guardar</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </section>
+    <section class="list">
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Father</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in list %} 
+            <tr>
+              <td>{{ item.id }}</td>
+              <td>{{ item.nombre }}</td>
+              <td>{{ item.father }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </body>
+</html>

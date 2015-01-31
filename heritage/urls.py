@@ -5,6 +5,8 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'^liberate/', 'core.views.liberateView'),
+    url(r'^entidad/', 'core.views.entidadView'),
     # Examples:
     # url(r'^$', 'heritage.views.home', name='home'),
     # url(r'^heritage/', include('heritage.foo.urls')),
