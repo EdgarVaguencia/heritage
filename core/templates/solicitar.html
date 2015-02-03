@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+  <section>
+    <form action="/request/1/" method="POST">
+      {% csrf_token %}
+      <table>
+        <thead>
+          <tr>
+            <td>{{ form.entidad.label }}</td>
+            <td>{{ form.entidad }}</td>
+            <td>{{ form.entidad.errors }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.year.label }}</td>
+            <td>{{ form.year }}</td>
+            <td>{{ form.year.errors }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.month.label }}</td>
+            <td>{{ form.month }}</td>
+            <td>{{ form.month.errors }}</td>
+          </tr>
+          <tr>
+            <td colspan="2"><button>Buscar</button></td>
+          </tr>
+        </thead>
+      </table>
+    </form>
+  </section>
+  <section>
+    <form action="/request/2/" method="POST">
+      {% csrf_token %}
+      <table>
+        <thead>
+          <tr>
+            <td>{{ form.entidad.label }}</td>
+            <td>{{ form.entidad }}</td>
+            <td>{{ form.entidad.errors }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.year.label }}</td>
+            <td>{{ form.year }}</td>
+            <td>{{ form.year.errosr }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.month.label }}</td>
+            <td>{{ form.month }}</td>
+            <td>{{ form.month.errors }}</td>
+          </tr>
+          <tr>
+            <td>Posibles</td>
+            <td><input type="text" readonly value={{ posibles }} ></td>
+          </tr>
+          <tr>
+            <td>{{ form.request.label }}</td>
+            <td>{{ form.request }}</td>
+            <td>{{ form.request.errors }}</td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              {% if posibles %} 
+                <button>Guardar</button>
+              {% endif %}
+            </td>
+          </tr>
+        </thead>
+      </table>
+    </form>
+  </section>
+{% endblock content %}

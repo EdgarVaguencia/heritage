@@ -15,7 +15,6 @@ def entidadView(request):
   if request.method == 'POST':
     form_entidad = entidadForm(request.POST)
     if form_entidad.is_valid():
-      print 'valido'
       form_entidad.save()
     
     for field, errors in form_entidad.errors.items():
@@ -55,3 +54,32 @@ def liberateView(request):
     },
     context_instance = RequestContext(request)
   )
+
+@csrf_protect
+def requestView(request,type_request=None):
+
+  form_request = None
+  posibles = None
+
+  if request.method == 'POST':
+    if type_request == "1": # Busqueda de posibles a solicitar
+      form_request = requestForm(request.POST,simple=True)
+      try:
+        view_entidad = entidad.objects.get(pk=request.POST['entidad'])
+        posibles = view_entidad.posibles(request.POST['year'], request.POST['month'])
+      except entidad.DoesNotExist:
+        print 'Esa Entidad ni existe'
+    if type_request == "2":
+      print 'Es solicitud'
+  else:
+    form_request = requestForm
+
+  return render_to_response(
+    'solicitar.html',
+    {
+      'form' : form_request,
+      'posibles' : posibles,
+    },
+    context_instance = RequestContext(request)
+  )
+

@@ -25,7 +25,7 @@ class entidadForm(ModelForm):
     super(entidadForm, self).__init__(*args, **kwargs)
 
     GROUP_ENTITY = [(g.pk,u'{}'.format(g.nombre))for g in entidad.objects.all()]
-    self.fields['father'] = forms.ChoiceField(choices=GROUP_ENTITY)
+    self.fields['father'] = forms.ChoiceField(choices=GROUP_ENTITY, required=False )
 
   class Meta:
     model = entidad
@@ -36,4 +36,22 @@ class entidadForm(ModelForm):
 
   def save(self):
     cleaned_data = self.cleaned_data
+    if not self.instance.father:
+      self.instance.father = None
     super(entidadForm, self).save()
+
+class requestForm(ModelForm):
+  def __init__(self, *args, **kwargs):
+    simple = kwargs.pop('simple', False)
+    super(requestForm, self).__init__(*args, **kwargs)
+
+    print simple
+    if simple:
+      self.fields['request'].required = False
+
+  class Meta:
+    model = solicitud
+
+  def clean(self):
+    cleaned_data = super(requestForm, self).clean()
+    return cleaned_data
