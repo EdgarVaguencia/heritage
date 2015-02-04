@@ -80,12 +80,15 @@ def requestView(request,type_request=None):
     form_request = requestForm
     _form_request = requestForm
 
+  model_list = solicitud.objects.all()
+
   return render_to_response(
     'solicitar.html',
     {
       'form' : form_request,
       'form2' : _form_request,
       'posibles' : posibles,
+      'list' : model_list,
     },
     context_instance = RequestContext(request)
   )
