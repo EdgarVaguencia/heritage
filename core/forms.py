@@ -45,7 +45,6 @@ class requestForm(ModelForm):
     simple = kwargs.pop('simple', False)
     super(requestForm, self).__init__(*args, **kwargs)
 
-    print simple
     if simple:
       self.fields['request'].required = False
 
@@ -54,4 +53,18 @@ class requestForm(ModelForm):
 
   def clean(self):
     cleaned_data = super(requestForm, self).clean()
+
     return cleaned_data
+
+  def save(self):
+    cleaned_data = self.cleaned_data
+    try:
+      view_entidad = entidad.objects.get(pk=self.instance.entidad.pk)
+      return_log = view_entidad.posibles(self.instance.year, self.instance.month)
+      posibles = return_log['posibles']
+      if int(posibles) < int(self.instance.request):
+        self._errors['request'] = self.error_class('No pidas mas de los que puedes')
+    except entidad.DoesNotExist:
+      self._errors['entidad'] = self.error_class('Entidad no existe')
+
+    super(requestForm, self).save()

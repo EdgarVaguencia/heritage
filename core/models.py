@@ -38,6 +38,7 @@ class entidad(models.Model):
   def posibles(self, year, month):
     posibles = 0
     actual_in_log = True
+    id_log = None
     try: # Buscamos los disponibles de la entidad solicitada
       flag = 100
       for l in log.objects.filter(entidad=self.pk):
@@ -49,6 +50,7 @@ class entidad(models.Model):
           if formula < flag or formula == 0:
             flag = formula
             posibles = l.liberate - l.request
+            id_log = l
     except log.DoesNotExist:
       actual_in_log = False
 
@@ -68,8 +70,12 @@ class entidad(models.Model):
               flag = formula
               level = father_level
               posibles = l.liberate - l.request
+              id_log = l
 
-    return posibles
+    return {
+      'posibles' : posibles,
+      'log' : id_log,
+    }
 
 class liberar(models.Model):
   # Liberaciones

@@ -59,25 +59,32 @@ def liberateView(request):
 def requestView(request,type_request=None):
 
   form_request = None
+  _form_request = None
   posibles = None
 
   if request.method == 'POST':
+    form_request = requestForm(request.POST,simple=True)
     if type_request == "1": # Busqueda de posibles a solicitar
-      form_request = requestForm(request.POST,simple=True)
+      _form_request = form_request
       try:
         view_entidad = entidad.objects.get(pk=request.POST['entidad'])
-        posibles = view_entidad.posibles(request.POST['year'], request.POST['month'])
+        return_log = view_entidad.posibles(request.POST['year'], request.POST['month'])
+        posibles = return_log['posibles']
       except entidad.DoesNotExist:
         print 'Esa Entidad ni existe'
     if type_request == "2":
-      print 'Es solicitud'
+      _form_request = requestForm(request.POST)
+      if _form_request.is_valid():
+        _form_request.save()
   else:
     form_request = requestForm
+    _form_request = requestForm
 
   return render_to_response(
     'solicitar.html',
     {
       'form' : form_request,
+      'form2' : _form_request,
       'posibles' : posibles,
     },
     context_instance = RequestContext(request)
